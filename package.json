@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/spencerdezartsmith/gurlwhereyouat#readme",
   "dependencies": {
-    "eslint-rallycoding": "^1.2.0"
+    "eslint-rallycoding": "^1.2.0",
+    "express": "^4.14.0"
   }
 }
