@@ -12,8 +12,14 @@
   },
   "author": "Spencer Dezart-Smith",
   "license": "ISC",
+  "engines": {
+    "node": "6.2.1"
+  },
   "bugs": {
     "url": "https://github.com/spencerdezartsmith/gurlwhereyouat/issues"
   },
-  "homepage": "https://github.com/spencerdezartsmith/gurlwhereyouat#readme"
+  "homepage": "https://github.com/spencerdezartsmith/gurlwhereyouat#readme",
+  "dependencies": {
+    "eslint-rallycoding": "^1.2.0"
+  }
 }
