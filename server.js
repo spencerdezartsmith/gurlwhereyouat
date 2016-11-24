@@ -1,13 +1,22 @@
 const express = require('express');
-const path = require('path');
 
 const app = express();
+
 // setting a port key
 app.set('port', process.env.PORT || 3000);
+
+// express middleware to serve static assets
+app.use(express.static('public'));
+
+// express will auto require ejs
+app.set('view engine', 'ejs');
+
 const port = app.get('port');
 
 app.get('/', (req, res, next) => {
-  res.sendFile(path.join(__dirname, '/views/login.htm'));
+  res.render('login', {
+    'pageTitle': 'My Login Page'
+  });
 });
 
 app.get('/dashboard', (req, res, next) => {
