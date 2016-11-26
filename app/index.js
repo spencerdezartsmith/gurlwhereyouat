@@ -1,5 +1,7 @@
 const routes = require('./routes');
+const session = require('./session');
 
 module.exports = {
-  router: routes()
+  router: routes(),
+  session: session
 };
