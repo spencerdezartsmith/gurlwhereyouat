@@ -10,6 +10,9 @@ const port = app.get('port');
 app.use(express.static('public'));
 // express will auto require ejs
 app.set('view engine', 'ejs');
+
+app.use(chat.session);
+
 app.use('/', chat.router);
 
 app.listen(port, () => {
