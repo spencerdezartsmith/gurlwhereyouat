@@ -14,12 +14,15 @@ let _registerRoutes = (routes, method) => {
         router.get(key, routes[key]);
       } else if (method === 'post') {
         router.post(key, routes[key]);
+      } else {
+        // will use the NA if no method is provided
+        router.use(routes[key]);
       }
     }
   }
 };
 
-let route = routes => {
+const route = routes => {
   _registerRoutes(routes);
   return router;
 };

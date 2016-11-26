@@ -18,6 +18,11 @@ module.exports = () => {
     },
     post: {
 
+    },
+    'NA': (req, res, next) => {
+      // process.cwd provides the absolute path of the entry file
+      // which is this case is the server.js file
+      res.status(404).sendFile(process.cwd() + '/views/404.htm');
     }
   };
 
