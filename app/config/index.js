@@ -1,4 +1,4 @@
-// const dev = require('./development.json');
+require('dotenv').config();
 
 if (process.env.NODE_ENV === 'production') {
 // Offer production stage environment variables
