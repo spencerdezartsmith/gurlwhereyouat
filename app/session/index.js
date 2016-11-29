@@ -10,7 +10,7 @@ if (process.env.NODE_ENV === 'production') {
     resave: false,
     saveUnitialized: false,
     store: new MongoStore({
-      mongooseConnection: db.mongoose.connection
+      mongooseConnection: db.Mongoose.connection
     })
   });
 } else {
