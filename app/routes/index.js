@@ -10,14 +10,16 @@ module.exports = () => {
           pageTitle: 'My Login Page'
         });
       },
-      '/rooms': (req, res, next) => {
+      '/rooms': [helper.isAuthenticated, (req, res, next) => {
         res.render('rooms', {
           user: req.user
         });
-      },
-      '/chat': (req, res, next) => {
-        res.render('chatroom');
-      },
+      }],
+      '/chat': [helper.isAuthenticated, (req, res, next) => {
+        res.render('chatroom'), {
+          user: req.user
+        };
+      }],
       '/auth/facebook': passport.authenticate('facebook'),
       '/auth/facebook/callback': passport.authenticate('facebook', {
         successRedirect: '/rooms',
@@ -27,7 +29,12 @@ module.exports = () => {
       '/auth/twitter/callback': passport.authenticate('twitter', {
         successRedirect: '/rooms',
         failureRedirect: '/login'
-      })
+      }),
+      '/logout': (req, res, next) => {
+        // Logout method is supplied by passport
+        req.logout();
+        res.redirect('/');
+      }
     },
     post: {
 
