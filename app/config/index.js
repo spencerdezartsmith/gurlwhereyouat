@@ -11,6 +11,12 @@ if (process.env.NODE_ENV === 'production') {
       clientSecret: process.env.fbClientSecret,
       callbackURL: process.env.host + '/auth/facebook/callback',
       profileFields: ['id', 'displayName', 'photos']
+    },
+    twitter: {
+      consumerKey: process.env.twConsumerKey,
+      consumerSecret: process.env.twConsumerSecret,
+      callbackURL: process.env.host + '/auth/twitter/callback',
+      profileFields: ['id', 'displayName', 'photos']
     }
   };
 } else {
@@ -23,6 +29,12 @@ if (process.env.NODE_ENV === 'production') {
       clientID: process.env.CLIENT_ID,
       clientSecret: process.env.CLIENT_SECRET,
       callbackURL: '//localhost:3000/auth/facebook/callback',
+      profileFields: ['id', 'displayName', 'photos']
+    },
+    twitter: {
+      consumerKey: process.env.CONSUMER_KEY,
+      consumerSecret: process.env.CONSUMER_SECRET,
+      callbackURL: '//localhost:3000/auth/twitter/callback',
       profileFields: ['id', 'displayName', 'photos']
     }
   };
