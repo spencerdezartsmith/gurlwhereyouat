@@ -22,6 +22,11 @@ module.exports = () => {
       '/auth/facebook/callback': passport.authenticate('facebook', {
         successRedirect: '/rooms',
         failureRedirect: '/'
+      }),
+      '/auth/twitter': passport.authenticate('twitter'),
+      '/auth/twitter/callback': passport.authenticate('twitter', {
+        successRedirect: '/rooms',
+        failureRedirect: '/login'
       })
     },
     post: {
