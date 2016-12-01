@@ -18,6 +18,6 @@ app.use(passport.session());
 
 app.use('/', chat.router);
 
-app.listen(port, () => {
+chat.ioServer(app).listen(port, () => {
   console.log('Gurlwhereyouat is listening on port:', port);
 });
