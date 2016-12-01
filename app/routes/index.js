@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const helper = require('../helpers');
 const passport = require('passport');
+const config = require('../config');
 
 module.exports = () => {
   let routes = {
@@ -12,12 +13,14 @@ module.exports = () => {
       },
       '/rooms': [helper.isAuthenticated, (req, res, next) => {
         res.render('rooms', {
-          user: req.user
+          user: req.user,
+          host: config.host
         });
       }],
       '/chat': [helper.isAuthenticated, (req, res, next) => {
         res.render('chatroom'), {
-          user: req.user
+          user: req.user,
+          host: config.host
         };
       }],
       '/auth/facebook': passport.authenticate('facebook'),
