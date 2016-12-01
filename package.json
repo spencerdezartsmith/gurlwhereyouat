@@ -29,6 +29,7 @@
     "mongoose": "^4.7.0",
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.1",
-    "passport-twitter": "^1.0.4"
+    "passport-twitter": "^1.0.4",
+    "socket.io": "1.7.1"
   }
 }
