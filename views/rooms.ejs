@@ -9,8 +9,33 @@
   <script>
     $(() => {
       let socket = io('<%= host %>' + '/roomslist');
+      let newRoomInput = $('input[name="roomName"]')
 
-      socket.on('connect', () => console.log('Connected to the server'))
+      let renderChatRooms = chatrooms => {
+        let roomsListDiv = $('#roomsListUL');
+        let listStr = '';
+        for (let room of chatrooms) {
+          listStr += `<a href="/chat/${room.roomID}"><li>${room.room}</li></a>`
+        }
+        roomsListDiv.html('').append(listStr);
+      }
+
+      // Get a list of the chatrooms
+      socket.emit('getChatrooms');
+
+      // Event listener for chatRoomsList
+      socket.on('chatRoomsList', chatrooms => {
+        renderChatRooms(JSON.parse(chatrooms))
+      })
+
+      // Create an event listener for the create new room button
+      $('#createBtn').on('click', () => {
+        if (newRoomInput.val() !== '') {
+          socket.emit('createNewRoom', newRoomInput.val());
+          newRoomInput.val('');
+        }
+      })
+
     });
   </script>
 </head>
@@ -31,8 +56,6 @@
 		<div class="roomsListDiv">
 			<ul class="roomsList" id="roomsListUL">
 			<!-- Loop list items here -->
-				<a href="chatroom.htm"><li>World Cuisine</li></a>
-				<a href="chatroom.htm"><li>Coffee and Conversations</li></a>
 			<!-- Loop ends -->
 			</ul>
 		</div>
