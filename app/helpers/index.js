@@ -3,8 +3,8 @@ const db = require('../db');
 const crypto = require('crypto');
 
 // Iterate through the routes object to register the routes
-const _registerRoutes = (routes, method) => {
-  for (const key in routes) {
+let _registerRoutes = (routes, method) => {
+  for (let key in routes) {
     if (typeof routes[key] === 'object' &&
         routes[key] !== null &&
         !(routes[key] instanceof Array)
@@ -24,22 +24,22 @@ const _registerRoutes = (routes, method) => {
   }
 };
 
-const route = routes => {
+let route = routes => {
   _registerRoutes(routes);
   return router;
 };
 
 // Find a single document based on a key
-const findOne = (profileID) => {
+let findOne = (profileID) => {
   return db.userModel.findOne({
     profileId: profileID
   });
 };
 
 // Create a new user and returns that instance
-const createNewUser = profile => {
+let createNewUser = profile => {
   return new Promise((resolve, reject) => {
-    const newChatUser = new db.userModel({
+    let newChatUser = new db.userModel({
       profileId: profile.id,
       fullName: profile.displayName,
       profilePic: profile.photos[0].value || ''
@@ -56,7 +56,7 @@ const createNewUser = profile => {
 };
 
 // The ES6 promisified version of findById
-const findById = id => {
+let findById = id => {
   return new Promise((resolve, reject) => {
     db.userModel.findById(id, (error, user) => {
       if (error) {
@@ -69,7 +69,7 @@ const findById = id => {
 };
 
 // A middleware that checks to see if the user is autheniticated & logged in
-const isAuthenticated = (req, res, next) => {
+let isAuthenticated = (req, res, next) => {
   if (req.isAuthenticated()) {
     // next will invoke a continuation of the route
     next();
@@ -79,30 +79,22 @@ const isAuthenticated = (req, res, next) => {
 };
 
 // Find a chatroom by a given name
-const findRoomByName = (allRooms, roomName) => {
-  const findRoom = allRooms.findIndex((element, index, array) => {
-    if (element.room === roomName) {
-      return true;
-    } else {
-      return false;
-    }
+let findRoomByName = (allRooms, roomName) => {
+  let findRoom = allRooms.findIndex((element, index, array) => {
+    return element.room === roomName ? true : false;
   });
   return findRoom > -1;
 };
 
 // A function that generates a unique roomID
-const randomHex = () => {
+let randomHex = () => {
   return crypto.randomBytes(24).toString('hex');
 };
 
 // Find a chatroom with a given ID
-const findRoomByID = (allRooms, roomID) => {
+let findRoomByID = (allRooms, roomID) => {
   return allRooms.find((element, index, array) => {
-    if (element.roomID === roomID) {
-      return true;
-    } else {
-      return false;
-    }
+    return element.roomID === roomID ? true : false;
   });
 };
 
@@ -115,11 +107,7 @@ let addUserToRoom = (allrooms, data, socket) => {
 		let userID = socket.request.session.passport.user;
 		// Check to see if this user already exists in the chatroom
 		let checkUser = getRoom.users.findIndex((element, index, array) => {
-			if(element.userID === userID) {
-				return true;
-			} else {
-				return false;
-			}
+			return element.userID === userID ? true : false;
 		});
 
 		// If the user is already present in the room, remove him first
@@ -143,6 +131,22 @@ let addUserToRoom = (allrooms, data, socket) => {
 	}
 };
 
+// Find and purge the user when a socket disconnects
+let removeUserFromRoom = (allRooms, socket) => {
+  for (let room of allRooms) {
+    // Find the user
+    let findUser = room.users.findIndex((element, index, array) => {
+      return element.socketID === socket.id ? true : false;
+    });
+
+    if (findUser > -1) {
+      socket.leave(room.roomID);
+      room.users.splice(findUser, 1);
+      return room;
+    }
+  }
+};
+
 module.exports = {
   route,
   findOne,
@@ -152,5 +156,6 @@ module.exports = {
   findRoomByName,
   randomHex,
   findRoomByID,
-  addUserToRoom
+  addUserToRoom,
+  removeUserFromRoom
 };
