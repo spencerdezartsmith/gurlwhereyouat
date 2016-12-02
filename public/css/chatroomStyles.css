@@ -248,7 +248,7 @@ input[name='userInput'] {
 }
 .fileUploadBtn::before {
 	content: 'Photo';
-	display: inline-block;  
+	display: inline-block;
 	background: rgb(67, 202, 147);
 	border: none;
 	padding: 10px 10px;
@@ -261,7 +261,7 @@ input[name='userInput'] {
 }
 .fileUploadBtn:hover::before {
   	border-color: black;
-  
+
 }
 
 .fileUploadBtn:active::before {
