@@ -1,7 +1,7 @@
 const helper = require('../helpers');
 
 module.exports = (io, app) => {
-  const allRooms = app.locals.chatrooms;
+  let allRooms = app.locals.chatrooms;
   // Listening for the roomslist namespace
   io.of('/roomslist').on('connection', socket => {
     socket.on('getChatrooms', () => {
@@ -29,11 +29,23 @@ module.exports = (io, app) => {
   io.of('/chatter').on('connection', socket => {
     // Join chatroom
     socket.on('join', data => {
-      const usersList = helper.addUserToRoom(allRooms, data, socket);
+      let usersList = helper.addUserToRoom(allRooms, data, socket);
 
-      // Update the list of active users as shown on the chatroom page
+      // Update the list of active users as shown on the chatrooom page
       socket.broadcast.to(data.roomID).emit('updateUsersList', JSON.stringify(usersList.users));
       socket.emit('updateUsersList', JSON.stringify(usersList.users));
+    });
+
+    // When a socket exists
+    socket.on('disconnect', () => {
+      // Find the room, to which the sicket is connected to and purge the user
+      let room = helper.removeUserFromRoom(allRooms, socket);
+      socket.broadcast.to(room.roomID).emit('updateUsersList', JSON.stringify(room.users));
+    });
+
+    // When new message arrives
+    socket.on('newMessage', data => {
+      socket.to(data.roomID).emit('inMessage', JSON.stringify(data));
     });
   });
 };
