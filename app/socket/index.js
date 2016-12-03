@@ -30,7 +30,8 @@ module.exports = (io, app) => {
     // Join chatroom
     socket.on('join', data => {
       let usersList = helper.addUserToRoom(allRooms, data, socket);
-      // Update the list of active users as shown on the chatroom page
+
+      // Update the list of active users as shown on the chatrooom page
       socket.broadcast.to(data.roomID).emit('updateUsersList', JSON.stringify(usersList.users));
       socket.emit('updateUsersList', JSON.stringify(usersList.users));
     });
@@ -40,6 +41,11 @@ module.exports = (io, app) => {
       // Find the room, to which the sicket is connected to and purge the user
       let room = helper.removeUserFromRoom(allRooms, socket);
       socket.broadcast.to(room.roomID).emit('updateUsersList', JSON.stringify(room.users));
+    });
+
+    // When new message arrives
+    socket.on('newMessage', data => {
+      socket.to(data.roomID).emit('inMessage', JSON.stringify(data));
     });
   });
 };
