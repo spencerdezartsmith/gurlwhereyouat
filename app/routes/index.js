@@ -8,7 +8,7 @@ module.exports = () => {
     get: {
       '/': (req, res, next) => {
         res.render('login', {
-          pageTitle: 'My Login Page'
+          pageTitle: 'Let\'s make plans'
         });
       },
       '/rooms': [helper.isAuthenticated, (req, res, next) => {
