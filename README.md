@@ -17,7 +17,11 @@ Gurlwhereyouat is multi user chatroom app that allows users to talk about weeken
 ## Screenshots
 
 ![alt tag](http://i.imgur.com/kH7QmRt.png)
+*Login using social authentication*
 ![alt tag](http://i.imgur.com/ue2uAmU.png)
+*Create a chat room*
 ![alt tag](http://i.imgur.com/1Rxkj5T.png)
+*Participate in multi user chat*
 ![alt tag](http://i.imgur.com/AuBp5Me.png)
+*Upload an image to the chat session*
 
